@@ -3,10 +3,13 @@ const path = require('path');
 
 const cubes = require('../db.json');
 
-exports.getAll = (search = '', from = 1, to = 6) => {
+exports.getAll = (search = '', from, to) => {
+    const fromInput = Number(from) || 1;
+    const toInput = Number(to) || 6;
+
     const result = cubes
     .filter(x => x.name.toLowerCase().includes(search.toLowerCase()))
-    .filter(x => x.difficultyLevel >= from && x.difficultyLevel <= to)
+    .filter(x => x.difficultyLevel >= fromInput && x.difficultyLevel <= toInput)
 
     return result;
 };
