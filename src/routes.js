@@ -6,6 +6,6 @@ const cubeController = require('./controllers/cube');
 router.get('/', homeController.index); // give action for specific path URL
 router.get('/about', homeController.about);
 
-router.use('/cube', cubeController);
+router.use('/cube', cubeController); // give Controller/router to take action for this specific path URL
 
 module.exports = router;
