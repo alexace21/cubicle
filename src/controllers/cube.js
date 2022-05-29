@@ -1,8 +1,5 @@
 const router = require('express').Router();
-const fs = require('fs/promises');
-const path = require('path');
-
-const cubes = require('../db.json');
+const cubeService = require('../services/cubeService');
 
 router.get('/create', (req, res) => {
     res.render('create');
@@ -12,12 +9,11 @@ router.post('/create', (req, res) => {
     const cube = req.body;
 
     // Validate TODO:
-    if(cube.name.length < 3) {
+    if (cube.name.length < 3) {
         return res.status(400).send('Bad Request');
     }
     // Save data
-    cubes.push(cube);
-    fs.writeFile(path.resolve('src', 'db.json'), JSON.stringify(cubes, '', 4), {encoding: 'utf-8'})
+    cubeService.save(cube)
         .then(() => {
             //Redirect to Page
             res.redirect('/');
@@ -25,7 +21,10 @@ router.post('/create', (req, res) => {
         .catch(err => {
             res.status(400).send('Bad Request');
         })
+})
 
+router.get('/details/:id', (req, res) => {
+    res.render('details');
 })
 
 module.exports = router;
