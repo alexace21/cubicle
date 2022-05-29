@@ -5,7 +5,8 @@ const app = express();
 
 
 app.use('/static', express.static('public'));
-app.use(express.urlencoded({extended: false}));
+
+app.use(express.urlencoded({extended: false})); // helps our App to parse and read the data Posted by the Client/Browser
 
 app.engine('hbs', handlebars.engine({
     extname: 'hbs'
