@@ -6,14 +6,13 @@ const Cube = require('../models/Cube');
 
 
 exports.getAll = async (search = '', from, to) => {
- //   const fromInput = Number(from) || 1;
- //   const toInput = Number(to) || 6;
-//
- //   const result = cubes
- //       .filter(x => x.name.toLowerCase().includes(search.toLowerCase()))
- //       .filter(x => x.difficultyLevel >= fromInput && x.difficultyLevel <= toInput)
-//
-    let cubes = await Cube.find().lean();
+
+    const fromInput = Number(from) || 1;
+    const toInput = Number(to) || 6;
+
+    let cubes = await Cube.find({name: { $regex: new RegExp(search, 'i')}})
+        .where('diffcultyLevel').lte(to).gte(from)
+        .lean();
 
     return cubes;
 };
