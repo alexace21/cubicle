@@ -3,7 +3,7 @@
     <div class="form">
         <h2>{{cube.name}}</h2>
         <img class="cube" src="{{cube.imageUrl}}">
-        <form action="" method="">
+        <form method="POST">
             <label for="accessory">Accessories</label>
             <select id="accessory" name="accessory" />
 
@@ -14,8 +14,7 @@
             </select>
             <input type="submit" value="Attach">
         </form>
-        <h3 class="italic">This cube has all available accessories so far or there is no available at all...
-        </h3>
+        <h3 class="italic">This cube has all available accessories so far or there is no available at all...</h3>
         <a class="btn" href="/cube/details/{{cube._id}}">Back</a>
     </div>
 </main>
