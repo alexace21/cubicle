@@ -18,7 +18,7 @@ exports.getAll = async (search = '', from, to) => {
     return cubes;
 };
 
-exports.getOne = (cubeId) => Cube.findById(cubeId);
+exports.getOne = (cubeId) => Cube.findById(cubeId).populate('accessories');
 
 exports.create = (cube) => Cube.create(cube);
 
