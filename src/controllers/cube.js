@@ -13,7 +13,7 @@ router.post('/create', (req, res) => {
         return res.status(400).send('Bad Request');
     }
     // Save data
-    cubeService.save(cube)
+    cubeService.create(cube)
         .then(() => {
             //Redirect to Page
             res.redirect('/');
@@ -23,8 +23,8 @@ router.post('/create', (req, res) => {
         })
 })
 
-router.get('/details/:id', (req, res) => {
-    const cube = cubeService.getOne(req.params.id)
+router.get('/details/:id', async (req, res) => {
+    const cube = await cubeService.getOne(req.params.id).lean();
 
     res.render('details', { cube });
 })
