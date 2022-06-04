@@ -10,7 +10,7 @@ const accessorySchema = new mongoose.Schema({
         required: true,
         validate: {
             //validator: /^https?/g,
-            validator: function() {
+            validator: function () {
                 return this.imageUrl.startsWith('http');
             },
             message: 'Image URL should be a valid link'
@@ -21,6 +21,12 @@ const accessorySchema = new mongoose.Schema({
         required: true,
         maxlength: 120,
     },
+    cubes: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Cube'
+        }
+    ]
 
 });
 
