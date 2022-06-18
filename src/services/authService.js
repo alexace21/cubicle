@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
 const saltRounds = 10;
+const secret = 'ersyutrfi7utyf756re65f756gv5335c6898$#@%$';
 
 exports.register = async ({ username, password, repeatPassword }) => {
     // TODO: return form validation message.
@@ -31,9 +33,20 @@ exports.login = async ({ username, password }) => {
 
     const comparison = await bcrypt.compare(password, user.password);
 
-    if (comparison) {
-        return user;
-    } else {
+    if (!comparison) {
         return;
     }
+
+    let result = new Promise((resolve, reject) => {
+        jwt.sign({ _id: user._id, username: user.username }, secret, { expiresIn: '2d' }, (err, token) => {
+            if (err) {
+                return;
+                return reject(err);
+            }
+
+            resolve(token);
+        });
+    });
+
+    return result;
 };

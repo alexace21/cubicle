@@ -23,10 +23,10 @@ router.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
-router.post('/login', async (req ,res) => {
-    let result = await authService.login(req.body);
+router.post('/login', async (req, res) => {
+    let token = await authService.login(req.body);
 
-    if (!result) {
+    if (!token) {
         res.redirect('/404');
         return;
     }
