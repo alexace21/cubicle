@@ -21,7 +21,7 @@ exports.getOne = (cubeId) => Cube.findById(cubeId).populate('accessories');
 
 exports.create = (cube) => Cube.create(cube);
 
-exports.edit = (cubeId, cubeData) => Cube.findByIdAndUpdate(cubeId, cubeData);
+exports.edit = (cubeId, cubeData) => Cube.findByIdAndUpdate(cubeId, cubeData, {runValidators: true});
 
 exports.delete = (cubeId) => Cube.findByIdAndDelete(cubeId);
 
