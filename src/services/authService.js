@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
-const saltRounds = 10;
-const secret = 'ersyutrfi7utyf756re65f756gv5335c6898$#@%$';
+const { saltRounds, secret } = require('../config/jsonConfig');
 
 exports.register = async ({ username, password, repeatPassword }) => {
     // TODO: return form validation message.
