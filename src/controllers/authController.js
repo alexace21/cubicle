@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const { isEmail } = require('../utils/validators');
 const authService = require('../services/authService');
 const { sessionName } = require('../config/jsonConfig');
 
@@ -8,6 +9,10 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+
+    if (!isEmail(req.body.username)) {
+        return res.status(401).send('Invalid email address!');
+    }
 
     let createdUser = await authService.register(req.body);
 
