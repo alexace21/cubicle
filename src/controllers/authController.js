@@ -8,20 +8,19 @@ router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
 
     if (!isEmail(req.body.username)) {
-        return res.status(401).send('Invalid email address!');
+        //return res.status(401).send('Invalid email address!'); Express validation
+        let error = { message: 'Invalid email.' };
+        next(error);
     }
+    try {
+        await authService.register(req.body);
 
-    let createdUser = await authService.register(req.body);
-
-    if (createdUser) {
         res.redirect('/auth/login');
-    } else {
-        // TODO: Add notification.
-        console.log(createdUser);
-        res.redirect('404');
+    } catch (error) {
+        res.status(401).render('auth/login', {error: error.message});
     }
 });
 
@@ -30,15 +29,22 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    let token = await authService.login(req.body);
+    try {
+        let token = await authService.login(req.body);
 
-    if (!token) {
-        res.redirect('/404');
-        return;
+        if (!token) {
+            res.redirect('/404');
+            return;
+        }
+        res.cookie(sessionName, token, { httpOnly: true });
+
+        res.redirect('/');
+    } catch (error) {
+        res.status(400).render('auth/login', { error: error.message });
     }
-    res.cookie(sessionName, token, { httpOnly: true });
 
-    res.redirect('/');
+
+
 });
 
 router.get('/logout', (req, res) => {

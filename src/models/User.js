@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// Validation on Model level.
+
+userSchema.virtual('repeatPassword').set(function(value) {
+    if (this.password !== value) {
+        throw new Error('Password does not match!');
+    }
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

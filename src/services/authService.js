@@ -9,7 +9,7 @@ exports.register = async ({ username, password, repeatPassword }) => {
     // TODO: return form validation message.
 
     if (password !== repeatPassword) {
-        return false;
+        return;
     }
 
     let hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -33,7 +33,9 @@ exports.login = async ({ username, password }) => {
     const comparison = await bcrypt.compare(password, user.password);
 
     if (!comparison) {
-        return;
+        throw {
+            message: "Invalid username or password."
+        };
     }
 
     // create new Promise to asynchronously resolve the callback jwt.sign
